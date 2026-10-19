@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #ffe6e6, #ffb3d9);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            max-width: 90%;
+            width: 450px;
+            z-index: 10;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        /* Typewriter text styling */
+        #typewriter {
+            font-size: 1.3rem;
+            color: #4a4a4a;
+            min-height: 60px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+        .music-btn {
+            background-color: #ff4d94;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 77, 148, 0.4);
+        }
+        .music-btn:hover {
+            background-color: #e60067;
+            transform: scale(1.05);
+        }
+        /* Floating hearts */
+        .heart {
+            position: absolute;
+            color: #ff4d94;
+            font-size: 1.5rem;
+            animation: float 5s linear infinite;
+            opacity: 0.7;
+            bottom: -10%;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Yahan tum uska naam likh sakte ho -->
+        <h1>Hey Beautiful! ✨</h1>
+        
+        <!-- Auto typing complements -->
+        <div id="typewriter"></div>
+
+        <!-- Music Trigger Button -->
+        <button class="music-btn" id="playBtn">🎵 Touch Here for a Surprise</button>
+    </div>
+
+    <!-- YouTube Music Audio Embed (Jeene Laga Hoon) -->
+    <!-- Note: Yeh ek publicly available audio stream use kar raha hai -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+
+        <!-- Agar upar wala generic link kaam na kare, toh niche diye instructions padhein -->
+    </audio>
+
+    <script>
+        // --- 1. Typewriter Effect for Complements ---
+        const textArray = [
+            "Tumhari smile sabse pyaari hai... 😊",
+            "Jab tum samne aati ho, toh waqt ruk jata hai...",
+            "Your vibe is completely magical. ✨",
+            "Pata nahi kyu, par tumse baat karke sab achha lagta hai...",
+            "Jeene Laga Hoon Pehle Se Zyada... ❤️"
+        ];
+        
+        let arrayIndex = 0;
+        let charIndex = 0;
+        const typewriterElement = document.getElementById("typewriter");
+
+        function type() {
+            if (charIndex < textArray[arrayIndex].length) {
+                typewriterElement.innerHTML += textArray[arrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 80);
+            } else {
+                setTimeout(erase, 2000);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typewriterElement.innerHTML = textArray[arrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 40);
+            } else {
+                arrayIndex = (arrayIndex + 1) % textArray.length;
+                setTimeout(type, 500);
+            }
+        }
+
+        // Start effect on load
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(type, 1000);
+            setInterval(createHeart, 400);
+        });
+
+        // --- 2. Music Player Control ---
+        const music = document.getElementById("bgMusic");
+        const playBtn = document.getElementById("playBtn");
+
+        playBtn.addEventListener("click", () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    playBtn.innerHTML = "⏸️ Pause the Magic";
+                }).catch(err => {
+                    console.log("Audio play error: ", err);
+                });
+            } else {
+                music.pause();
+                playBtn.innerHTML = "🎵 Play Music Again";
+            }
+        });
+
+        // --- 3. Floating Hearts Background ---
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 3 + "s"; // 3 to 6 seconds
+            heart.style.fontSize = Math.random() * 20 + 15 + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+    </script>
+</body>
+</html>
